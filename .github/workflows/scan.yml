@@ -14,21 +14,17 @@ jobs:
 
     - name: Run Gitleaks
       run: |
-        # Ensure gitleaks is installed
-        brew install gitleaks
-        # Run Gitleaks scan
-        gitleaks detect --source . --report-format json --report-path gitleaks_report.json
-
+        gitleaks detect --source .github/test_files --report-format json --report-path gitleaks_report.json
+    
     - name: Run n0s1
       run: |
-        # Add command for n0s1 scan
-        n0s1 scan --output n0s1_report.json
-
+        n0s1 scan --source .github/test_files --output n0s1_report.json
+    
     - name: Combine Results
       run: |
         # Combine the results from different scans
-        jq -s '.[0] * .[1] ' gitleaks_report.json n0s1_report.json > combined_report.json
-
+        jq -s '.[0] * .[1]' gitleaks_report.json n0s1_report.json > combined_report.json
+    
     - name: Commit and Push Results
       run: |
         git config --local user.email \"you@example.com\"
