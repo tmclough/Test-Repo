@@ -13,8 +13,17 @@ jobs:
 
     - name: Install Gitleaks
       run: |
+        # Download gitleaks binary for Linux (ensure it's the correct version for the runner architecture)
         curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.1.0/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks
+        # Verify the download file type
+        file /usr/local/bin/gitleaks
+        # Set executable permissions
         chmod +x /usr/local/bin/gitleaks
+
+    - name: Verify Gitleaks Installation
+      run: |
+        # Check if gitleaks works by showing the version
+        gitleaks --version
 
     - name: Run Gitleaks
       run: |
@@ -23,10 +32,9 @@ jobs:
     - name: Run n0s1
       run: |
         n0s1 scan --source .github/test_files --output n0s1_report.json
-    
+
     - name: Combine Results
       run: |
-        # Combine the results from different scans
         jq -s '.[0] * .[1]' gitleaks_report.json n0s1_report.json > combined_report.json
     
     - name: Commit and Push Results
