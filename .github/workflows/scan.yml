@@ -16,8 +16,7 @@ jobs:
         # Download the gitleaks binary for Linux (64-bit)
         curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks
         
-        # Verify the file type of the downloaded file
-        file /usr/local/bin/gitleaks
+
         
         # Set executable permissions on the downloaded binary
         chmod +x /usr/local/bin/gitleaks
