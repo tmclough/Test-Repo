@@ -1,4 +1,4 @@
-name: Gitleaks Scan 2 with clone
+name: Gitleaks Scan
 
 on:
   schedule:
@@ -17,12 +17,14 @@ jobs:
         with:
           fetch-depth: 0  # Ensures the entire history is fetched for scanning
 
-      - name: Clone the target repository
+      - name: Download repository as tarball from GitHub
         run: |
-          git clone https://github.com/tmclough/CS546.git
-          cd your-repo
+          # Replace the URL with the actual repository URL
+          curl -L https://github.com/tmclough/CS546/archive/refs/heads/main.tar.gz -o repo.tar.gz
+          tar -xzvf repo.tar.gz
+          cd CS546-main  # Change to the extracted directory (name should match the repo)
 
-      - name: Run Gitleaks on the cloned repository
+      - name: Run Gitleaks on the downloaded repository
         uses: gitleaks/gitleaks-action@v2
         with:
           args: --source . --report-format json --report-path gitleaks_report.json
