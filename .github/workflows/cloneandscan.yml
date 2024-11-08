@@ -28,7 +28,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         with:
           args: |
-            --source .  # Current directory for scanning
+            --source ./CS546   # Current directory for scanning
             --report-format json
             --report-path gitleaks_report.json
             --since=5  # Limit to the last 10 commits (you can adjust this number as needed)
