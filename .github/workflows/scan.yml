@@ -21,7 +21,7 @@ jobs:
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: --source .github/test_files/test_files.txt --report-format json --report-path gitleaks_report.json
+          args: --source .github--report-format json --report-path gitleaks_report.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required for pushing back to the repository
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }} # Only required for organizations (not personal repos)
