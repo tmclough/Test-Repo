@@ -1,0 +1,37 @@
+name: Gitleaks Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight
+  workflow_dispatch:  # Allows manual runs
+  pull_request:  # Triggers on pull requests
+  push:  # Triggers on push events
+
+jobs:
+  gitleaks_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensures the entire history is fetched for scanning
+
+      - name: Clone the target repository
+        run: |
+          git clone https://github.com/your-org/your-repo.git
+          cd your-repo
+
+      - name: Run Gitleaks on the cloned repository
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: --source . --report-format json --report-path gitleaks_report.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required for pushing back to the repository
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }} # Only required for organizations (not personal repos)
+
+      - name: Upload Gitleaks Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gitleaks-report
+          path: gitleaks_report.json
