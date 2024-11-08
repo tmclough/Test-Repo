@@ -1,4 +1,4 @@
-name: Gitleaks Scan
+name: Gitleaks Scan 2 with clone
 
 on:
   schedule:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Clone the target repository
         run: |
-          git clone https://github.com/your-org/your-repo.git
+          git clone https://github.com/tmclough/CS546.git
           cd your-repo
 
       - name: Run Gitleaks on the cloned repository
